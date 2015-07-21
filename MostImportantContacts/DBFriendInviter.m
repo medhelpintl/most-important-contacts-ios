@@ -81,11 +81,11 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@(%@, recordID=%i, score=%i)",
+    return [NSString stringWithFormat:@"%@(%@, recordID=%i, score=%li)",
                 NSStringFromClass(self.class),
                 self.contactName,
                 self.contact,
-                self.score];
+                (long)self.score];
 }
 @end
 
