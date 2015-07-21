@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.version          = "1.0.0"
   s.summary          = "Most Important Contacts"
   s.description      = "iOS Helper Methods for finding a user's most important contacts" 
+  s.homepage         = "https://github.com/medhelpintl/most-important-contacts-ios"
+
   s.license          = { :type => "MIT", :file => "LICENSE" }
   s.author           = { "tbd" => "tbd@tbd.com" }
   s.source           = { :git => "https://github.com/medhelpintl/most-important-contacts-ios.git", :tag => s.version.to_s }
@@ -19,5 +21,5 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.requires_arc = true
 
-  s.source_files = './MostImportantContacts/DBFriendInviter.{h,m}'
+  s.source_files = 'MostImportantContacts/DBFriendInviter.{h,m}'
 end
