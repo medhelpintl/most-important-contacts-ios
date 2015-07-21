@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/medhelpintl/most-important-contacts-ios"
 
   s.license          = { :type => "MIT", :file => "LICENSE" }
-  s.author           = { "tbd" => "tbd@tbd.com" }
+  s.author           = { "dbader" => "n/a" }
   s.source           = { :git => "https://github.com/medhelpintl/most-important-contacts-ios.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '6.0'
