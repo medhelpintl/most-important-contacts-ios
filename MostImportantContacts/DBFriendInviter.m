@@ -82,10 +82,10 @@
 
 - (NSString*) description {
     return [NSString stringWithFormat:@"%@(%@, recordID=%i, score=%li)",
-                NSStringFromClass(self.class),
-                self.contactName,
-                self.contact,
-                (long)self.score];
+            NSStringFromClass(self.class),
+            self.contactName,
+            self.contact,
+            (long)self.score];
 }
 @end
 
@@ -141,9 +141,13 @@ static NSArray *MULTIVALUE_PROPERTIES = nil;
 
 /**
  * Initialize the score lookup tables only once. We cannot do this by declaring them
- * as static const because the kAB... constants only become valid at runtime.
+ * as static const because the kAB... constants only become valid at runtime (and after AddressBook has been created.)
  */
 + (void) initialize {
+    
+    // Must create an address book else the kAB constants are not created yet
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, nil);
+    
     if (!SINGLEVALUE_PROPERTIES) {
         SINGLEVALUE_PROPERTIES = @[
             // Contacts with nicknames and birthdays are likely to be more important.
@@ -243,7 +247,9 @@ static NSArray *MULTIVALUE_PROPERTIES = nil;
         }
         
         NSInteger score = [self importanceScoreForContact:person];
-        [mostImportantContacts addObject:[__DBContactScorePair pairWithContact:personID score:score]];
+        // if the score is -1000, then we don't add this to the result list
+        if (score > -1000)
+            [mostImportantContacts addObject:[__DBContactScorePair pairWithContact:personID score:score]];
     }
     
     if (addressBook) {
@@ -255,8 +261,9 @@ static NSArray *MULTIVALUE_PROPERTIES = nil;
     
     // Convert the results into a list of ABRecordIDs wrapped in NSNumbers.
     // Also limit the number of results to `maxResults`.
-    NSMutableArray *results = [NSMutableArray arrayWithCapacity:maxResults];
-    NSRange resultsRange = NSMakeRange(0, MIN(maxResults, mostImportantContacts.count));
+    NSUInteger numResults = MIN(maxResults, mostImportantContacts.count);
+    NSMutableArray *results = [NSMutableArray arrayWithCapacity:numResults];
+    NSRange resultsRange = NSMakeRange(0, numResults);
     for (__DBContactScorePair *pair in [mostImportantContacts subarrayWithRange:resultsRange]) {
         [results addObject:@(pair.contact)];
     }
@@ -266,6 +273,10 @@ static NSArray *MULTIVALUE_PROPERTIES = nil;
 
 + (NSArray*) mostImportantContacts {
     return [self mostImportantContactsWithIgnoredRecordIDs:nil maxResults:10];
+}
+
++ (NSArray*) mostImportantContactsMaxResults:(NSUInteger)maxResults {
+    return [self mostImportantContactsWithIgnoredRecordIDs:nil maxResults:maxResults];
 }
 
 @end

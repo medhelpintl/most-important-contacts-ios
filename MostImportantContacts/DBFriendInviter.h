@@ -33,6 +33,15 @@
  */
 + (NSArray*) mostImportantContacts;
 
+
+/**
+ * Return the {maxResults} most-important contacts from the user's address book.
+ * The returned list consists of an NSArray of ABRecordIDs. Each ABRecordID is wrapped
+ * in an NSNumber instance. The list is sorted by descending importance, i.e. the most
+ * important contacts are first.
+ */
++ (NSArray*) mostImportantContactsMaxResults:(NSUInteger)maxResults;
+
 /** 
  * Like [DBFriendInviter mostImportantContacts].
  *
