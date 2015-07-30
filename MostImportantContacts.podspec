@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "MostImportantContacts"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "Most Important Contacts"
   s.description      = "iOS Helper Methods for finding a user's most important contacts" 
   s.homepage         = "https://github.com/medhelpintl/most-important-contacts-ios"
